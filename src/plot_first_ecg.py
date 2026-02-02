@@ -20,14 +20,24 @@ def extract_features(record_id, label):
     rr = np.diff(peaks) / fs
     bpm = 60 / rr
 
+    diff_rr = np.diff(rr)
+
+    rmssd = np.sqrt(np.mean(diff_rr ** 2))
+    sdnn = np.std(rr)
+    pnn50 = np.sum(np.abs(diff_rr) > 0.05) / len(diff_rr) * 100
+
     return {
         "record_id": record_id,
         "mean_rr": np.mean(rr),
+        "median_rr": np.median(rr),
         "std_rr": np.std(rr),
         "min_rr": np.min(rr),
         "max_rr": np.max(rr),
         "mean_bpm": np.mean(bpm),
         "std_bpm": np.std(bpm),
+        "rmssd": rmssd,
+        "sdnn": sdnn,
+        "pnn50": pnn50,
         "label": label
     }
 
