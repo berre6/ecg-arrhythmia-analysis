@@ -8,6 +8,11 @@ from raw ECG signals to classification results.
 
 ---
 
+## Example ECG Visualization
+
+![ECG Example](data/ecg_example.png)
+
+
 ## Dataset
 - Source: MIT-BIH Arrhythmia Database
 - Records used:
