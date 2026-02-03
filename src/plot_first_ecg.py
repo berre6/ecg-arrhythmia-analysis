@@ -42,23 +42,24 @@ def extract_features(record_id, label):
     }
 
 
-print("DOSYA ÇALIŞTI")
+print("DOSYA ÇALIŞTI\n")
 
-# -----------------------------
-# KAYITLAR
-# -----------------------------
+normal_records = ["100", "101", "102", "103"]
+arrhythmia_records = ["200", "201", "202", "203"]
+
 data = []
-data.append(extract_features("100", label=0))  # normal
-data.append(extract_features("200", label=1))  # aritmi
+
+for rec in normal_records:
+    data.append(extract_features(rec, label=0))
+
+for rec in arrhythmia_records:
+    data.append(extract_features(rec, label=1))
 
 df = pd.DataFrame(data)
 
-# -----------------------------
-# CSV YAZ
-# -----------------------------
 df.to_csv("../data/ecg_features.csv", index=False)
 
-print("\nCSV OLUŞTURULDU:")
+print("CSV OLUŞTURULDU\n")
 print(df)
 
 
