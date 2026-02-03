@@ -1,29 +1,29 @@
-# ECG Arrhythmia Analysis 🫀
+# ECG Arrhythmia Analysis 
 
-This project analyzes real ECG signals from the **MIT-BIH Arrhythmia Database**
-to detect arrhythmia using both **rule-based methods** and a **machine learning model**.
+This project analyzes real ECG signals from the MIT-BIH Arrhythmia Database
+to detect arrhythmia using both rule-based analysis and machine learning.
 
-The goal is to build an **explainable and reproducible ECG analysis pipeline**,
-starting from raw signals and ending with classification results.
+The goal is to build an explainable end-to-end ECG analysis pipeline,
+from raw ECG signals to classification results.
 
 ---
 
-## 📊 Dataset
+## Dataset
 - Source: MIT-BIH Arrhythmia Database
 - Records used:
   - Normal: 100, 101, 102, 103
   - Arrhythmia: 200, 201, 202, 203
 - Signal duration: first 30 seconds
-- Sampling frequency: record-dependent (MIT-BIH standard)
+- Sampling frequency: 360 Hz
 
 ---
 
-## ⚙️ Feature Extraction
+## Feature Extraction
 Heart Rate Variability (HRV) features extracted from R–R intervals:
 
 - Mean RR interval
 - Median RR interval
-- RR standard deviation (STD)
+- RR standard deviation
 - Minimum RR
 - Maximum RR
 - Mean BPM
@@ -32,36 +32,34 @@ Heart Rate Variability (HRV) features extracted from R–R intervals:
 - SDNN
 - pNN50
 
-All extracted features are saved into:
+Extracted features are saved to:
 
 data/ecg_features.csv
 
-
 ---
 
-## 🧠 Methods
+## Methods
 
-### 1️⃣ Rule-Based Analysis
-- R-peaks detected using `scipy.signal.find_peaks`
+### Rule-Based Analysis
+- R-peaks detected using scipy.signal.find_peaks
 - RR intervals and BPM calculated
-- Threshold-based logic used to analyze rhythm variability
+- Rhythm variability analyzed using HRV metrics
 
-### 2️⃣ Machine Learning
+### Machine Learning
 - Model: Logistic Regression
-- Features: HRV features listed above
+- Input: HRV features
 - Train/Test split: 75% / 25%
 - Library: scikit-learn
 
-⚠️ **Note:**  
+Note:
 Due to the small dataset size, ML results may appear overly optimistic.
-The goal is demonstration and explainability, not clinical deployment.
+This project is for educational and demonstration purposes.
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 Install dependencies:
-```bash
 pip install -r requirements.txt
 
 Generate features:
@@ -70,19 +68,16 @@ python src/plot_first_ecg.py
 Train ML classifier:
 python src/ml_classifier.py
 
+---
+
+## Output
+- HRV feature dataset (CSV)
+- Classification accuracy and confusion matrix printed in terminal
 
 ---
 
+## Project Structure
 
-
-
-📈 Example Output
-
--Extracted HRV features saved as CSV
--Classification accuracy and confusion matrix printed in terminal
-
-
-🧩 Project Structure
 ecg-arrhythmia-analysis/
 ├── data/
 │   └── ecg_features.csv
@@ -92,27 +87,17 @@ ecg-arrhythmia-analysis/
 ├── requirements.txt
 └── README.md
 
+---
 
-🚀 Future Work
-
--Increase dataset size using more MIT-BIH records
--Add advanced HRV features
--Compare multiple ML models (SVM, Random Forest)
--Time-domain and frequency-domain analysis
--Visualization of feature importance
-
-
-👤 Author
-Berre
-
+## Future Work
+- Increase dataset size
+- Add frequency-domain HRV features
+- Compare multiple ML models
+- Feature importance visualization
+- Advanced ECG signal analysis
 
 ---
 
-## 🐙 FINISH COMMIT
-```powershell
-git add README.md
-git commit -m "Improve README with methodology, ML, and future work"
-git push
-
-
+## Author
+Berre
 
