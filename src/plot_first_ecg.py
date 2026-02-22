@@ -2,6 +2,7 @@ import wfdb
 import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
+from scipy.signal import welch
 
 def extract_features(record_id, label):
     record = wfdb.rdrecord(record_id, pn_dir="mitdb")
@@ -26,6 +27,24 @@ def extract_features(record_id, label):
     sdnn = np.std(rr)
     pnn50 = np.sum(np.abs(diff_rr) > 0.05) / len(diff_rr) * 100
 
+    # --- Frequency Domain HRV ---
+    if len(rr) > 4:
+        rr_interp = rr - np.mean(rr)
+
+        freqs, psd = welch(rr_interp, fs=1.0, nperseg=min(len(rr_interp), 256))
+
+        lf_mask = (freqs >= 0.04) & (freqs < 0.15)
+        lf_power = np.trapz(psd[lf_mask], freqs[lf_mask])
+
+        hf_mask = (freqs >= 0.15) & (freqs < 0.4)
+        hf_power = np.trapz(psd[hf_mask], freqs[hf_mask])
+
+        lf_hf_ratio = lf_power / hf_power if hf_power != 0 else 0
+    else:
+        lf_power = 0
+        hf_power = 0
+        lf_hf_ratio = 0
+
     return {
         "record_id": record_id,
         "mean_rr": np.mean(rr),
@@ -38,9 +57,11 @@ def extract_features(record_id, label):
         "rmssd": rmssd,
         "sdnn": sdnn,
         "pnn50": pnn50,
+        "lf_power": lf_power,
+        "hf_power": hf_power,
+        "lf_hf_ratio": lf_hf_ratio,
         "label": label
     }
-
 
 print("DOSYA ÇALIŞTI\n")
 
